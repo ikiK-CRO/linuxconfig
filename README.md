@@ -5,11 +5,11 @@
 # PREDUVJETI
 Instalacije na OS-u: 
 - Docker
-- Github
+- Github CLI
  # UPUTE
-- git clone git@github.com:ikiK-CRO/linuxconfig.git // ili koristiti CLI ili https instalaciju
-- cd linuxconfig // ulazak u root projekta
-- sudo docker-compose up -d --build // pokretanje
+- git clone git@github.com:ikiK-CRO/linuxconfig.git
+- cd linuxconfig
+- sudo docker-compose up -d --build
 
 Početna: http://localhost/
 
