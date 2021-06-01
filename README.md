@@ -1,5 +1,5 @@
 # NEKRETNINE ZADATAK
- Izvedba: Docker / PHP - MariaDb - Vue
+ Izvedba: Docker / PHP - MySQL/MariaDB - Vue
 
  Testirano na MAC OSX Big Sur, LINUX UBUNTU 20.4
 
@@ -12,7 +12,6 @@ Instalacije na OS-u:
 - cd linuxconfig
 - sudo docker-compose up -d --build
 
-Početna: http://localhost/
 
 phpMyAdmin: http://localhost:8081/index.php
 
@@ -20,3 +19,7 @@ phpMyAdmin: http://localhost:8081/index.php
 -  MYSQL_PASSWORD: 'testpassword'
 
 Kreirati polja u bazi MYSQL_DATABASE: 'testdb' koristeći SQL iz datoteke DB.sql iz root-a.
+
+# TEST
+
+Početna: http://localhost/
