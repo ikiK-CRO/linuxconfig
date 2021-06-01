@@ -1,0 +1,19 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+:root {
+  --back: #e0e0e0;
+  --main: #1d3649;
+}
+
+* {
+  font-family: "Roboto", sans-serif;
+  color: var(--main);
+}
+
+html,
+body {
+  background-color: var(--back);
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
