@@ -1,6 +1,6 @@
 # NEKRETNINE ZADATAK
  Izvedba: Docker / PHP - MariaDb - Vue
- 
+
  Testirano na MAC OSX Big Sur, LINUX UBUNTU 20.4
 
 # PREDUVJETI
@@ -19,4 +19,4 @@ phpMyAdmin: http://localhost:8081/index.php
 -  MYSQL_USER: 'testuser'
 -  MYSQL_PASSWORD: 'testpassword'
 
-
+Kreirati polja u bazi MYSQL_DATABASE: 'testdb' koristeći SQL iz datoteke DB.sql iz root-a.
