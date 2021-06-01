@@ -12,8 +12,10 @@ Instalacije na OS-u:
 - sudo docker-compose up -d --build // pokretanje
 
 Početna: http://localhost/
+
 phpMyAdmin: http://localhost:8081/index.php
-    -  MYSQL_USER: 'testuser'
-    -  MYSQL_PASSWORD: 'testpassword'
+
+-  MYSQL_USER: 'testuser'
+-  MYSQL_PASSWORD: 'testpassword'
 
 
