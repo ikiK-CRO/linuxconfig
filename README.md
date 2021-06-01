@@ -1,5 +1,6 @@
 # NEKRETNINE ZADATAK
  Izvedba: Docker / PHP - MariaDb - Vue
+ 
  Testirano na MAC OSX Big Sur, LINUX UBUNTU 20.4
 
 # PREDUVJETI
