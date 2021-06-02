@@ -1,3 +1,14 @@
+
+CREATE TABLE `users` (
+  `usr_id` int(11) NOT NULL AUTO_INCREMENT,
+  `usr_name` varchar(255) NOT NULL,
+  `usr_pass` text NOT NULL,
+  PRIMARY KEY (usr_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `users` (`usr_name`, `usr_pass`) VALUES ('Admin', 'Admin');
+
+
 CREATE TABLE IF NOT EXISTS `kategorije` (
     `kat_id` int(11) NOT NULL AUTO_INCREMENT,
     `kat_naziv` varchar(256) NOT NULL,
@@ -18,3 +29,4 @@ CREATE TABLE IF NOT EXISTS `nekretnine` (
     PRIMARY KEY (`nek_id`),
     FOREIGN KEY (`kat_id` ) REFERENCES `kategorije` (`kat_id` ) ON DELETE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8;
+
