@@ -10,6 +10,13 @@ const kategorije = [
   { id: '4', kat_naziv: 'Zemljište' }
 ]
 
+
+const sel = document.querySelector("select")
+
+kategorije.forEach(kat=>{
+  sel.insertAdjacentHTML("beforeend", "<option value='"+kat.id+"'>"+kat.kat_naziv+"</option>"); 
+})
+
 //console.log(kategorije.filter(e => e.id == '1'))
 var toastElList = [].slice.call(document.querySelectorAll('.toast'))
 var toastList = toastElList.map(function (toastEl) {
@@ -29,7 +36,6 @@ const App = {
   data () {
     return {
       obj: null,
-      login: false,
       kategorije: kategorije
     }
   },
