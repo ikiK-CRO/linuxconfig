@@ -16,6 +16,14 @@ var toastList = toastElList.map(function (toastEl) {
   return new bootstrap.Toast(toastEl)
 })
 
+const toastText = document.querySelector('.toast-body')
+
+// const fetchOptDELETE = {
+//   method: 'DELETE',
+//   headers: {
+//       'Content-Type': 'application/json'
+//   }
+// }
 
 const App = {
   data () {
@@ -30,11 +38,37 @@ const App = {
     const res = await response.json()
     this.obj = res
   },
-  template: `<div class="card" v-bind:data-id="item.kat_id" style="width: 18rem;" v-for="item in obj" :key="item.nek_id">
+  methods: {
+    del: function (id) {
+      fetch(api + '?delete=' + id)
+        .then(response => {
+          if (response.ok) {
+            return response.json()
+          } else {
+            throw new Error('NETWORK RESPONSE ERROR')
+          }
+        })
+        .then(data => {
+          $('[data-iditem="' + id + '"]').fadeOut('slow')
+          if (data == true) {
+            toastText.innerHTML = 'Radnja uspješna!'
+            toastList.forEach(toast => toast.show())
+          }else{
+            toastText.innerHTML = 'Greška!' + data
+            toastList.forEach(toast => toast.show())
+          }
+        })
+    }
+  },
+  template: `<div class="card" v-bind:data-id="item.kat_id" v-bind:data-iditem="item.nek_id" style="width: 18rem;" v-for="item in obj" :key="item.nek_id">
   <img v-bind:src="item.nek_img" class="card-img-top" alt="...">
   <div class="card-body" >
     <h5 class="card-title">{{ item.nek_naslov }}</h5>
     <p class="card-text">Cijena: {{ item.nek_cijena }}</p>
+    <div class="ico">
+      <i class="bi bi-pencil-square"></i>
+      <i v-on:click="del(item.nek_id)" class="bi bi-trash-fill"></i>
+    </div>
   </div>
 </div>`
 }
@@ -64,20 +98,19 @@ document.querySelector('#prijava').addEventListener('click', e => {
 })
 
 const login = (korisnik, lozinka) => {
-  const toastText = document.querySelector('.toast-body')
-  const toast = document.querySelector('.toast-body')
-  let option
-
   fetch(api + '?korisnik=' + korisnik + '&lozinka=' + lozinka)
     .then(response => response.json())
     .then(res => {
       if (res != '') {
         $('#exampleModal').modal('hide')
-        $('.bi-person-circle').css('color', "green")
+        $('.bi-plus-circle-fill').fadeIn()
+        $('.bi-pencil-square').fadeIn()
+        $('.bi-trash-fill').fadeIn()
+        $('.bi-person-circle').css('color', 'green')
         toastText.innerHTML = 'Prijava uspješna!'
         toastList.forEach(toast => toast.show())
       } else {
-        $('.bi-person-circle').css('color', "black")
+        $('.bi-person-circle').css('color', 'black')
         $('#exampleModal').modal('hide')
         toastText.innerHTML = 'Nepoznati korisnik!'
         toastList.forEach(toast => toast.show())
