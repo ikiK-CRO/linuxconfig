@@ -20,25 +20,13 @@ phpMyAdmin: http://localhost:8081/index.php
 
 Kreirati polja u bazi MYSQL_DATABASE: 'testdb' koristeći SQL iz datoteke DB.sql iz root-a.
 
-//server up / down
-
-sudo docker-compose up -d
-
-sudo docker-compose down
-
-//enter php image
-
-docker exec -it linuxconfig_php-httpd_1 bash 
-
-//install and activate mysqli
-
-docker-php-ext-install mysqli 
-
-docker-php-ext-enable mysqli
-
-apachectl restart
+- Server up: sudo docker-compose up -d
+- Ulazak u php image: docker exec -it linuxconfig_php-httpd_1 bash 
+- Instalacija i aktivacija mysqli: docker-php-ext-install mysqli, docker-php-ext-enable mysqli, apachectl restart
 
 
 # TEST
 
 Početna: http://localhost/
+
+- server down: sudo docker-compose down
