@@ -1,0 +1,5 @@
+PHP entery:    docker exec -it linuxconfig_php-httpd_1 bash 
+
+docker-php-ext-install mysqli 
+docker-php-ext-enable mysqli
+apachectl restart
