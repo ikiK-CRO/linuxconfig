@@ -42,6 +42,51 @@ if (isset($_GET['korisnik']) && $_GET['korisnik'] != "") {
 //     echo "true";
 // }
 
+if (isset($_GET['unos']) && $_GET['unos'] != "") {
+    $naslov = mysqli_real_escape_string($con, $_GET['unos']);
+    $cijena = mysqli_real_escape_string($con, $_GET['cijena']);
+    $kat = mysqli_real_escape_string($con, $_GET['kat']);
+
+    $sql = "INSERT INTO nekretnine (nek_naslov, nek_cijena, kat_id) VALUES ('$naslov', '$cijena', '$kat')";
+
+    if ($con->query($sql) === TRUE) {
+        echo "true";
+    } else {
+        echo "Error: " . $sql . "<br>" . $con->error;
+    }
+}
+
+if (isset($_FILES['file']['name'])) {
+    // file name
+    $filename = $_FILES['file']['name'];
+
+    // Location
+    $location = '../src/img/' . $filename;
+
+    // file extension
+    $file_extension = pathinfo($location, PATHINFO_EXTENSION);
+    $file_extension = strtolower($file_extension);
+
+    // Valid extensions
+    $valid_ext = array("jpg", "png", "jpeg");
+
+    $response = 0;
+    if (in_array($file_extension, $valid_ext)) {
+        // Upload file
+        if (move_uploaded_file($_FILES['file']['tmp_name'], $location)) {
+            $sql = "UPDATE nekretnine SET nek_img='$location' ORDER BY nek_id DESC LIMIT 1";
+
+            if ($con->query($sql) === TRUE) {
+                $response = 1;
+            } else {
+                $response = "Error updating record: " . $con->error;
+            }
+        }
+    }
+
+    echo $response;
+    exit;
+}
 
 
 // DELETE

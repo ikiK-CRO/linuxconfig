@@ -10,11 +10,15 @@ const kategorije = [
   { id: '4', kat_naziv: 'Zemljište' }
 ]
 
+const sel = document.querySelectorAll('select')
 
-const sel = document.querySelector("select")
-
-kategorije.forEach(kat=>{
-  sel.insertAdjacentHTML("beforeend", "<option value='"+kat.id+"'>"+kat.kat_naziv+"</option>"); 
+kategorije.forEach(kat => {
+  sel.forEach(s => {
+    s.insertAdjacentHTML(
+      'beforeend',
+      "<option value='" + kat.id + "'>" + kat.kat_naziv + '</option>'
+    )
+  })
 })
 
 //console.log(kategorije.filter(e => e.id == '1'))
@@ -59,7 +63,7 @@ const App = {
           if (data == true) {
             toastText.innerHTML = 'Radnja uspješna!'
             toastList.forEach(toast => toast.show())
-          }else{
+          } else {
             toastText.innerHTML = 'Greška!' + data
             toastList.forEach(toast => toast.show())
           }
@@ -122,4 +126,79 @@ const login = (korisnik, lozinka) => {
         toastList.forEach(toast => toast.show())
       }
     })
+}
+
+document.querySelector('#unos').addEventListener('click', e => {
+  const naziv = document.querySelector('#naziv').value
+  const cijena = document.querySelector('#cijena').value
+  const kat = document.querySelector('#kat').value
+  const file = document.querySelector('#file').value
+
+  // console.log(naziv)
+  // console.log(cijena)
+  // console.log(kat)
+
+  if (naziv != '' && cijena != '' && kat != '') {
+    fetch(api + '?unos=' + naziv + '&cijena=' + cijena + '&kat=' + kat)
+      .then(response => {
+        if (response.ok) {
+          return response.json()
+        } else {
+          throw new Error('NETWORK RESPONSE ERROR')
+        }
+      })
+      .then(data => {
+        //console.log(data)
+        if (data == true) {
+          if (file != '') {
+            const myInput = document.getElementById('file')
+            uploadFile(myInput)
+          } else {
+            $('#exampleModal2').modal('hide')
+            toastText.innerHTML = 'Unos uspješan!'
+            toastList.forEach(toast => toast.show())
+          }
+        }
+      })
+  }
+})
+
+
+
+// Upload file
+function uploadFile(myInput) {
+
+  var files = myInput.files;
+
+     var formData = new FormData();
+     formData.append("file", files[0]);
+
+     var xhttp = new XMLHttpRequest();
+
+     // Set POST method and ajax file path
+     xhttp.open("POST", api, true);
+
+     // call on request changes state
+     xhttp.onreadystatechange = function() {
+       console.log(this.readyState)
+       console.log(this.status)
+
+        if (this.readyState == 4 && this.status == 200) {
+
+          var response = this.responseText;
+          console.log(response)
+          if(response == 1){
+            $('#exampleModal2').modal('hide')
+            toastText.innerHTML = 'Unos uspješan!'
+            toastList.forEach(toast => toast.show())
+          }else{
+            toastText.innerHTML = 'Unos supješan ali upload nije...'
+            toastList.forEach(toast => toast.show())
+          }
+        }
+     };
+
+     // Send request with data
+     xhttp.send(formData);
+
 }
