@@ -7,7 +7,6 @@ services:
             - 80:80
         volumes:
             - "./DocumentRoot:/var/www/html"
-
     mariadb:
         image: mariadb:10.5.2
         volumes:

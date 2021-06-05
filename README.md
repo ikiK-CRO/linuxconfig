@@ -22,7 +22,7 @@ Kreirati polja u bazi MYSQL_DATABASE: 'testdb' koristeći SQL iz datoteke DB.sql
 
 - Server up: ```sudo docker-compose up -d```
 - Ulazak u php image: ```docker exec -it linuxconfig_php-httpd_1 bash```
-- Instalacija i aktivacija mysqli: ```docker-php-ext-install mysqli```, ```apachectl restart```
+- Instalacija i aktivacija mysqli, mod_rewrite: ```docker-php-ext-install mysqli```, ```a2enmod rewrite```,  ```apachectl restart```
 
 
 # TEST

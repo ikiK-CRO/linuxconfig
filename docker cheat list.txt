@@ -7,9 +7,12 @@ docker exec -it linuxconfig_php-httpd_1 bash
 
 //install and activate mysqli
 docker-php-ext-install mysqli 
-docker-php-ext-enable mysqli
+a2enmod rewrite
 apachectl restart
 
 
 //get ip mysql
 docker inspect linuxconfig_mariadb_1
+
+
+- "./.htaccess:/var/www/html/.htaccess"

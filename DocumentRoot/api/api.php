@@ -25,7 +25,7 @@ if (isset($_GET['nekretnina']) && $_GET['nekretnina'] != "") {
     echo json_encode($data);
 }
 
-//LOGIN
+
 if (isset($_GET['korisnik']) && $_GET['korisnik'] != "") {
     $korisnik = mysqli_real_escape_string($con, $_GET['korisnik']);
     $lozinka = mysqli_real_escape_string($con, $_GET['lozinka']);
@@ -37,8 +37,6 @@ if (isset($_GET['korisnik']) && $_GET['korisnik'] != "") {
     }
     echo json_encode($data);
 }
-
-
 
 // if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
 //     echo "true";
