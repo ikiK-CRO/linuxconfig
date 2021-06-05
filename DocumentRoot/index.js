@@ -3,6 +3,11 @@ const api = 'http://localhost/api/api.php'
 
 const { createApp } = Vue
 
+const naziv = document.querySelector('#naziv')
+const cijena = document.querySelector('#cijena')
+const kat = document.querySelector('#kat')
+const file = document.querySelector('#file')
+
 const kategorije = [
   { id: '1', kat_naziv: 'Kuća' },
   { id: '2', kat_naziv: 'Stan' },
@@ -21,7 +26,6 @@ kategorije.forEach(kat => {
   })
 })
 
-//console.log(kategorije.filter(e => e.id == '1'))
 var toastElList = [].slice.call(document.querySelectorAll('.toast'))
 var toastList = toastElList.map(function (toastEl) {
   return new bootstrap.Toast(toastEl)
@@ -36,6 +40,8 @@ const toastText = document.querySelector('.toast-body')
 //   }
 // }
 
+let dat
+
 const App = {
   data () {
     return {
@@ -45,8 +51,8 @@ const App = {
   },
   async created () {
     const response = await fetch(api + '?nekretnine')
-    const res = await response.json()
-    this.obj = res
+    dat = await response.json()
+    this.obj = dat
   },
   methods: {
     del: function (id) {
@@ -68,6 +74,13 @@ const App = {
             toastList.forEach(toast => toast.show())
           }
         })
+    },
+    edit: function (id) {
+      let item = this.obj.filter(e => e.nek_id == id)
+      naziv.value = item[0].nek_naslov
+      cijena.value = item[0].nek_cijena
+      kat.value = item[0].kad_id
+      $('#exampleModal2').modal('show')
     }
   },
   template: `<div class="card" v-bind:data-id="item.kat_id" v-bind:data-iditem="item.nek_id" style="width: 18rem;" v-for="item in obj" :key="item.nek_id">
@@ -76,14 +89,20 @@ const App = {
     <h5 class="card-title">{{ item.nek_naslov }}</h5>
     <p class="card-text">Cijena: {{ item.nek_cijena }}</p>
     <div class="ico">
-      <i class="bi bi-pencil-square"></i>
+      <i v-on:click="edit(item.nek_id)" class="bi bi-pencil-square"></i>
       <i v-on:click="del(item.nek_id)" class="bi bi-trash-fill"></i>
     </div>
   </div>
 </div>`
 }
 
-createApp(App).mount('#app')
+const app = createApp(App)
+
+// app.component('nek-edit', {
+//   template: `<li>This is a todo</li>`
+// })
+
+app.mount('#app')
 
 document.querySelector('select').addEventListener('change', e => {
   const val = e.target.value
@@ -129,17 +148,16 @@ const login = (korisnik, lozinka) => {
 }
 
 document.querySelector('#unos').addEventListener('click', e => {
-  const naziv = document.querySelector('#naziv').value
-  const cijena = document.querySelector('#cijena').value
-  const kat = document.querySelector('#kat').value
-  const file = document.querySelector('#file').value
-
-  // console.log(naziv)
-  // console.log(cijena)
-  // console.log(kat)
-
-  if (naziv != '' && cijena != '' && kat != '') {
-    fetch(api + '?unos=' + naziv + '&cijena=' + cijena + '&kat=' + kat)
+  if (naziv.value != '' && cijena.value != '' && kat != '') {
+    fetch(
+      api +
+        '?unos=' +
+        naziv.value +
+        '&cijena=' +
+        cijena.value +
+        '&kat=' +
+        kat.value
+    )
       .then(response => {
         if (response.ok) {
           return response.json()
@@ -150,9 +168,8 @@ document.querySelector('#unos').addEventListener('click', e => {
       .then(data => {
         //console.log(data)
         if (data == true) {
-          if (file != '') {
-            const myInput = document.getElementById('file')
-            uploadFile(myInput)
+          if (file.value != '') {
+            uploadFile(file)
           } else {
             $('#exampleModal2').modal('hide')
             toastText.innerHTML = 'Unos uspješan!'
@@ -163,42 +180,27 @@ document.querySelector('#unos').addEventListener('click', e => {
   }
 })
 
-
-
 // Upload file
-function uploadFile(myInput) {
+function uploadFile (file) {
+  var files = file.files
+  var formData = new FormData()
+  formData.append('file', files[0])
+  var xhttp = new XMLHttpRequest()
+  xhttp.open('POST', api, true)
 
-  var files = myInput.files;
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      var response = this.responseText
+      if (response == 1) {
+        $('#exampleModal2').modal('hide')
+        toastText.innerHTML = 'Unos uspješan!'
+        toastList.forEach(toast => toast.show())
+      } else {
+        toastText.innerHTML = 'Unos supješan ali upload nije...'
+        toastList.forEach(toast => toast.show())
+      }
+    }
+  }
 
-     var formData = new FormData();
-     formData.append("file", files[0]);
-
-     var xhttp = new XMLHttpRequest();
-
-     // Set POST method and ajax file path
-     xhttp.open("POST", api, true);
-
-     // call on request changes state
-     xhttp.onreadystatechange = function() {
-       console.log(this.readyState)
-       console.log(this.status)
-
-        if (this.readyState == 4 && this.status == 200) {
-
-          var response = this.responseText;
-          console.log(response)
-          if(response == 1){
-            $('#exampleModal2').modal('hide')
-            toastText.innerHTML = 'Unos uspješan!'
-            toastList.forEach(toast => toast.show())
-          }else{
-            toastText.innerHTML = 'Unos supješan ali upload nije...'
-            toastList.forEach(toast => toast.show())
-          }
-        }
-     };
-
-     // Send request with data
-     xhttp.send(formData);
-
+  xhttp.send(formData)
 }

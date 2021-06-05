@@ -57,17 +57,12 @@ if (isset($_GET['unos']) && $_GET['unos'] != "") {
 }
 
 if (isset($_FILES['file']['name'])) {
-    // file name
     $filename = $_FILES['file']['name'];
 
-    // Location
     $location = '../src/img/' . $filename;
 
-    // file extension
     $file_extension = pathinfo($location, PATHINFO_EXTENSION);
     $file_extension = strtolower($file_extension);
-
-    // Valid extensions
     $valid_ext = array("jpg", "png", "jpeg");
 
     $response = 0;
