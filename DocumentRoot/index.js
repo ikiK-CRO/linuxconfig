@@ -78,8 +78,8 @@ const vm = createApp({
           }
         })
         .then(data => {
-          $('[data-iditem="' + id + '"]').fadeOut('slow')
           if (data == true) {
+            $('[data-iditem="' + id + '"]').fadeOut('slow')
             toastText.innerHTML = 'Radnja uspješna!'
             toastList.forEach(toast => toast.show())
           } else {
