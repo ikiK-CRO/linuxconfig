@@ -79,7 +79,11 @@ const App = {
       let item = this.obj.filter(e => e.nek_id == id)
       naziv.value = item[0].nek_naslov
       cijena.value = item[0].nek_cijena
-      kat.value = item[0].kad_id
+      console.log(item[0].kat_id)
+      $('#kat option[value=' + item[0].kat_id + ']').attr(
+        'selected',
+        'selected'
+      )
       $('#exampleModal2').modal('show')
     }
   },
@@ -97,10 +101,6 @@ const App = {
 }
 
 const app = createApp(App)
-
-// app.component('nek-edit', {
-//   template: `<li>This is a todo</li>`
-// })
 
 app.mount('#app')
 
@@ -146,6 +146,14 @@ const login = (korisnik, lozinka) => {
       }
     })
 }
+
+document.querySelector('#add').addEventListener('click', e => {
+  console.log(true)
+  naziv.value = ''
+  cijena.value = ''
+  file.value = ''
+  kat.selectedIndex = 0;
+})
 
 document.querySelector('#unos').addEventListener('click', e => {
   if (naziv.value != '' && cijena.value != '' && kat != '') {
