@@ -6,7 +6,7 @@ const { createApp } = Vue
 const naziv = document.querySelector('#naziv')
 const cijena = document.querySelector('#cijena')
 const kat = document.querySelector('#kat')
-const file = document.querySelector('#file')
+const fileEl = document.querySelector('#file')
 
 const kategorije = [
   { id: '1', kat_naziv: 'Kuća' },
@@ -40,9 +40,7 @@ const toastText = document.querySelector('.toast-body')
 //   }
 // }
 
-let dat
-
-const App = {
+const vm = createApp({
   data () {
     return {
       obj: null,
@@ -51,8 +49,7 @@ const App = {
   },
   async created () {
     const response = await fetch(api + '?nekretnine')
-    dat = await response.json()
-    this.obj = dat
+    this.obj = await response.json()
   },
   methods: {
     del: function (id) {
@@ -76,15 +73,16 @@ const App = {
         })
     },
     edit: function (id) {
-      let item = this.obj.filter(e => e.nek_id == id)
+      let item = this.$data.obj.filter(e => e.nek_id == id)
       naziv.value = item[0].nek_naslov
       cijena.value = item[0].nek_cijena
-      console.log(item[0].kat_id)
-      $('#kat option[value=' + item[0].kat_id + ']').attr(
-        'selected',
-        'selected'
-      )
+      kat.selectedIndex = item[0].kat_id 
+      // document.querySelector('#file').value = item[0].nek_img
+      // console.log(item[0].nek_img)
       $('#exampleModal2').modal('show')
+    },
+    refresh (data) {
+      Object.assign(this.$data.obj, data) // <--
     }
   },
   template: `<div class="card" v-bind:data-id="item.kat_id" v-bind:data-iditem="item.nek_id" style="width: 18rem;" v-for="item in obj" :key="item.nek_id">
@@ -98,11 +96,7 @@ const App = {
     </div>
   </div>
 </div>`
-}
-
-const app = createApp(App)
-
-app.mount('#app')
+}).mount('#app')
 
 document.querySelector('select').addEventListener('change', e => {
   const val = e.target.value
@@ -148,11 +142,10 @@ const login = (korisnik, lozinka) => {
 }
 
 document.querySelector('#add').addEventListener('click', e => {
-  console.log(true)
   naziv.value = ''
   cijena.value = ''
-  file.value = ''
-  kat.selectedIndex = 0;
+  fileEl.value = ''
+  kat.selectedIndex = 0
 })
 
 document.querySelector('#unos').addEventListener('click', e => {
@@ -176,12 +169,13 @@ document.querySelector('#unos').addEventListener('click', e => {
       .then(data => {
         //console.log(data)
         if (data == true) {
-          if (file.value != '') {
-            uploadFile(file)
+          if (fileEl.value != '') {
+            uploadFile(fileEl)
           } else {
             $('#exampleModal2').modal('hide')
             toastText.innerHTML = 'Unos uspješan!'
             toastList.forEach(toast => toast.show())
+            newAppData()
           }
         }
       })
@@ -189,8 +183,8 @@ document.querySelector('#unos').addEventListener('click', e => {
 })
 
 // Upload file
-function uploadFile (file) {
-  var files = file.files
+function uploadFile (fileEl) {
+  var files = fileEl.files
   var formData = new FormData()
   formData.append('file', files[0])
   var xhttp = new XMLHttpRequest()
@@ -203,12 +197,22 @@ function uploadFile (file) {
         $('#exampleModal2').modal('hide')
         toastText.innerHTML = 'Unos uspješan!'
         toastList.forEach(toast => toast.show())
+        newAppData()
       } else {
         toastText.innerHTML = 'Unos supješan ali upload nije...'
         toastList.forEach(toast => toast.show())
+        newAppData()
       }
     }
   }
 
   xhttp.send(formData)
+}
+
+const newAppData = e => {
+  fetch(api + '?nekretnine')
+    .then(response => response.json())
+    .then(res => {
+      vm.refresh(res)
+    })
 }
