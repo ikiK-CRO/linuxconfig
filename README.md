@@ -1,5 +1,5 @@
 # NEKRETNINE ZADATAK
- Izvedba: Docker / PHP - MySQL/MariaDB - Vue
+ Izvedba: Docker / PHP - MySQL/MariaDB - konbinacija vanilla JS i Vue3, Bootstrap, jQuery
 
  Testirano na MAC OSX Big Sur, LINUX UBUNTU 20.4
 
@@ -28,5 +28,9 @@ Kreirati polja u bazi MYSQL_DATABASE: 'testdb' koristeći SQL iz datoteke DB.sql
 # TEST
 
 Početna: http://localhost/
+
+
+- U gonjem desnom kutu se nalazi "login", koristite sljdeće podatke: admin, admin
+- Nakon logina pokazat će se ikona "plus", "edit" i "trash"...
 
 - server down: ```sudo docker-compose down```

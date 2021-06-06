@@ -33,6 +33,7 @@ var toastList = toastElList.map(function (toastEl) {
 
 const toastText = document.querySelector('.toast-body')
 
+//Fetch metode za API
 const fetchOptDELETE = {
   method: 'DELETE',
   headers: {
@@ -54,6 +55,7 @@ const fetchOptPUT = {
   }
 }
 
+// VUE APP
 const vm = createApp({
   data () {
     return {
@@ -91,8 +93,7 @@ const vm = createApp({
       naziv.value = item[0].nek_naslov
       cijena.value = item[0].nek_cijena
       kat.selectedIndex = item[0].kat_id
-      // document.querySelector('#file').value = item[0].nek_img
-      // console.log(item[0].nek_img)
+      fileEl.value = ""
       $('#exampleModal2 .modal-title').attr('data-nekid', id)
       $('#exampleModal2 .modal-title').text('EDITIRAJ NEKRETNINU')
       $('#exampleModal2').modal('show')
@@ -114,6 +115,9 @@ const vm = createApp({
 </div>`
 }).mount('#app')
 
+//VANILLA JS EVENTI I FUNKCIJE
+
+//FILTER KATEGORIJA
 document.querySelector('select').addEventListener('change', e => {
   const val = e.target.value
   document.querySelectorAll('.card').forEach(el => {
@@ -125,6 +129,7 @@ document.querySelector('select').addEventListener('change', e => {
   })
 })
 
+//LOGIN
 document.querySelector('#prijava').addEventListener('click', e => {
   const korisnik = document.querySelector('#korisnik').value
   const lozinka = document.querySelector('#lozinka').value
@@ -136,6 +141,7 @@ document.querySelector('#prijava').addEventListener('click', e => {
   }
 })
 
+//LOGIN
 const login = (korisnik, lozinka) => {
   fetch(api + '?korisnik=' + korisnik + '&lozinka=' + lozinka)
     .then(response => response.json())
@@ -156,7 +162,7 @@ const login = (korisnik, lozinka) => {
       }
     })
 }
-
+// DODAJ NEKRETNINU ČIŠĆENJE FORME
 document.querySelector('#add').addEventListener('click', e => {
   naziv.value = ''
   cijena.value = ''
@@ -165,6 +171,7 @@ document.querySelector('#add').addEventListener('click', e => {
   $('#exampleModal2 .modal-title').text('DODAJ NEKRETNINU')
 })
 
+// DODAJ I EDIT NEKRETNINU EVENT
 document.querySelector('#unos').addEventListener('click', e => {
   if ($('#exampleModal2 .modal-title').text() === 'EDITIRAJ NEKRETNINU') {
     const nekid = $('#exampleModal2 .modal-title').attr('data-nekid')
@@ -227,7 +234,6 @@ document.querySelector('#unos').addEventListener('click', e => {
           }
         })
         .then(data => {
-          //console.log(data)
           if (data == true) {
             if (fileEl.value != '') {
               uploadFile(fileEl)
@@ -247,9 +253,8 @@ document.querySelector('#unos').addEventListener('click', e => {
   }
 })
 
-// Upload file
+// UPLOAD FUNKCIJA
 function uploadFile (fileEl, id) {
-  console.log(id)
   var files = fileEl.files
   var formData = new FormData()
   formData.append('file', files[0])
@@ -280,6 +285,7 @@ function uploadFile (fileEl, id) {
   xhttp.send(formData)
 }
 
+//REFRESH DATA VUE APP
 const newAppData = e => {
   fetch(api + '?nekretnine')
     .then(response => response.json())
