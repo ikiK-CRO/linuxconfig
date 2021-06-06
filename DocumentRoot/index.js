@@ -93,7 +93,7 @@ const vm = createApp({
       naziv.value = item[0].nek_naslov
       cijena.value = item[0].nek_cijena
       kat.selectedIndex = item[0].kat_id
-      fileEl.value = ""
+      fileEl.value = ''
       $('#exampleModal2 .modal-title').attr('data-nekid', id)
       $('#exampleModal2 .modal-title').text('EDITIRAJ NEKRETNINU')
       $('#exampleModal2').modal('show')
