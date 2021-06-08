@@ -1,5 +1,5 @@
 //console.log(true)
-const api = 'http://localhost/api/api.php'
+const api = '/api/api.php'
 
 const { createApp } = Vue
 
@@ -121,9 +121,15 @@ const vm = createApp({
 document.querySelector('select').addEventListener('change', e => {
   const val = e.target.value
   document.querySelectorAll('.card').forEach(el => {
-    if (el.dataset.id == val) {
+    el.style.display = 'flex' // reset
+
+    if (el.dataset.id != val) {
       el.style.display = 'none'
     } else {
+      el.style.display = 'flex'
+    }
+
+    if (val == 0) {
       el.style.display = 'flex'
     }
   })
