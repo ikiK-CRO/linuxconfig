@@ -212,10 +212,6 @@ document.querySelector('#unos').addEventListener('click', e => {
               toastText.innerHTML = 'Unos uspješan!'
               toastList.forEach(toast => toast.show())
               newAppData()
-              setTimeout(function () {
-                $('.bi-pencil-square').fadeIn()
-                $('.bi-trash-fill').fadeIn()
-              }, 1000)
             }
           }
         })
@@ -248,10 +244,6 @@ document.querySelector('#unos').addEventListener('click', e => {
               toastText.innerHTML = 'Unos uspješan!'
               toastList.forEach(toast => toast.show())
               newAppData()
-              setTimeout(function () {
-                $('.bi-pencil-square').fadeIn()
-                $('.bi-trash-fill').fadeIn()
-              }, 1000)
             }
           }
         })
@@ -297,5 +289,14 @@ const newAppData = e => {
     .then(response => response.json())
     .then(res => {
       vm.refresh(res)
+      ikone()
     })
+}
+
+const ikone = () => {
+  setTimeout(function () {
+    console.log(true)
+    $('.bi-pencil-square').fadeIn()
+    $('.bi-trash-fill').fadeIn()
+  }, 300)
 }
